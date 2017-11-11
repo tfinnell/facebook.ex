@@ -21,6 +21,7 @@ defmodule Facebook.Mixfile do
     [
       mod: { Facebook, [] },
       applications: [:httpoison, :json, :logger],
+      extra_applications: [:plug],
       env: [
         env: :dev,
         graph_url: "https://graph.facebook.com/v2.9",
@@ -54,6 +55,7 @@ defmodule Facebook.Mixfile do
     [
       {:json, ">= 0.3.3"},
       {:httpoison, "~> 0.13"},
+      {:plug, "~> 1.0"},
 
       {:mock, "~> 0.2.0", only: :test},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
