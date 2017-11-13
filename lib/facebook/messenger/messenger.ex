@@ -3,6 +3,14 @@ defmodule Facebook.Messenger do
   Module for interacting with the Facebook Messenger Platform
   """
 
+  alias Facebook.GraphAPI
+  alias Facebook.ResponseFormatter
+
+  @typedoc """
+  A token used to authenticate a request
+  """
+  @type access_token :: String.t
+
   @typedoc """
   The content of the message.
 
@@ -25,4 +33,28 @@ defmodule Facebook.Messenger do
     * `:sponsored` - sends an ad message to all currently open conversations the bot has open
   """
   @type messaging_type :: atom
+
+  @typedoc """
+  Message payload
+  """
+  @type payload :: Facebook.Messenger.Payload.t
+
+  @typedoc """
+  """
+  @type response :: {:ok, Map.t} | {:error, Map.t}
+
+  @spec send_message(payload, access_token) :: response
+  def send_message(payload, access_token) do
+    # TODO: encode payload -- JSON.encode works for generic Map, but fails at encoding struct without further processing
+    ~s(/me/messages)
+      |> GraphAPI.post(payload, [], params: [access_token: access_token])
+      |> ResponseFormatter.format_response
+  end
+
+  @spec send_message(payload :: String.t, access_token) :: response
+  def send_message(payload, access_token) do
+    ~s(/me/messages)
+      |> GraphAPI.post(payload, [], params: [access_token: access_token])
+      |> ResponseFormatter.format_response
+  end
 end
