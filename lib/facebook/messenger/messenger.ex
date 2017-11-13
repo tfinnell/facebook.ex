@@ -46,15 +46,19 @@ defmodule Facebook.Messenger do
   @spec send_message(payload, access_token) :: response
   def send_message(payload, access_token) do
     # TODO: encode payload -- JSON.encode works for generic Map, but fails at encoding struct without further processing
+    params = [access_token: access_token]
+    headers = [{"Content-Type", "application/json"}]
     ~s(/me/messages)
-      |> GraphAPI.post(payload, [], params: [access_token: access_token])
+      |> GraphAPI.post(payload, headers, params: params)
       |> ResponseFormatter.format_response
   end
 
   @spec send_message(payload :: String.t, access_token) :: response
   def send_message(payload, access_token) do
+    params = [access_token: access_token]
+    headers = [{"Content-Type", "application/json"}]
     ~s(/me/messages)
-      |> GraphAPI.post(payload, [], params: [access_token: access_token])
+      |> GraphAPI.post(payload, headers, params: params)
       |> ResponseFormatter.format_response
   end
 end
